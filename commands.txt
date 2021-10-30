@@ -1,0 +1,172 @@
+1. mysql -u root -p 1232.  
+    ->  start mysql command line. 
+
+2. ALTER USER ‘root’@‘localhost’  IDENTIFIED BY ’123’  
+    -> change password.
+
+3. SHOW DATABASES  
+    -> list the current databases that exists on database server.
+
+4. CREATE DATABASE database_name 
+    -> create new database
+
+5. DROP DATABASE database_name 
+    -> delete database.
+
+6. USE database_name 
+    -> switch between databases.
+
+7. SELECT database() 
+    -> to know which database we are working on.
+
+10. varchar can take max 255 characters.
+
+11. CREATE TABLE table_name(column_name data_type, column_name data_type) 
+    -> to create new table.
+
+12. table name should be plural (ex - cats not cat).
+
+13. SHOW TABLES 
+    -> to know all the tables in current database.
+
+14. SHOW COLUMNS FROM table_name or DESC table_name or DESCRIBE table_name
+    -> to know datatypes of all columns.
+
+15. DROP TABLE table_name
+    -> to delete table from the database.
+
+16. INSERT INTO table_name
+        (column_name_1, column_name_2) 
+    VALUES
+        (value_1, value_2), 
+        (value_3, value_4)
+    -> to insert row into table.
+
+17. SHOW WARNINGS;
+    -> if we got warning while executing any query and want to know more about the warning.
+
+18. if the value of the column is missing in insert statement then 'null'(not known) will be inserted for that column.
+
+19. CREATE TABLE table_name(column_name data_type NOT NULL, column_name data_type, NOT NULL) 
+    -> to not allow null values use NOT NULL attribues of a column
+
+20. CREATE TABLE table_name (
+        column_name data_type DEFAULT 'unamed', 
+        column_name data_type, DEFAULT 99
+    );
+    -> to specify default value use DEFAULT attribues of a column.
+
+21. CREATE TABLE unique_cats (
+        cat_id INT NOT NULL AUTO_INCREMENT,
+        name VARCHAR(100),
+        age INT,
+        PRIMARY KEY (cat_id)
+    );
+    -> AUTO_INCREMENT attribute to auto increment ID.
+    -> PRIMARY KEY to uniquely identify a row. 
+    -> PRIMARY KEY can be added as column attribute or in the end as PRIMARY KEY(id).
+
+22. SELECT * FROM cats WHERE name='egG';
+    -> here name is case-insensitive.
+
+23. SELECT name AS 'cat name', breed AS 'kitty breed' FROM cats;
+    -> use aliases to give alternate name to a column.
+
+24. UPDATE table_name SET column_name = 'value' WHERE condition='some_condition';
+    -> update single or mulitple rows based on some condition.
+
+25. DELETE FROM table_name WHERE condition='some';
+    -> delete single or multiple rows based on some condition.
+
+26. execute sql files -> source testing/file.sql;
+
+27. SELECT concat(author_fname, " ", author_lname) as "Author Name" FROM books;
+    -> concat multiple column values.
+
+28. SELECT 
+    CONCAT_WS(' - ', title, author_fname, author_lname) 
+    FROM books;
+    -> concat but with a seperator between values.
+    -> CONCAT_WS indicates concatenate with separator
+
+29. SELECT SUBSTRING(title, 1, 7) as 'short title' FROM books;
+    -> select substring from string
+    -> index starts from 1 not 0
+    -> index can use -ve values as well ( SUBSTRING("Hello", -2) -> "lo")
+    -> We can also use SUBSTR, it works same as SUBSTRING
+
+30. SELECT REPLACE(title, "e", 3) FROM books;
+    -> to replace a value with another value
+    -> here e is to be replaced with 3.
+
+31. SELECT CONCAT(author_fname, REVERSE(author_fname)) as 'palindrome' FROM books;
+    ->  REVERSE function reverses string
+
+32. SELECT author_fname, CHAR_LENGTH(author_fname) as 'length' FROM books;
+    -> CHAR_LENGTH function gives the length of the string.
+      
+33. SELECT UPPER(title), LOWER(title) FROM books;
+    -> UPPER and LOWER function changes the case of string.
+
+34. SELECT DISTINCT author_lname FROM books;
+    -> DISTINCT removed duplicate records.
+
+35. SELECT author_lname FROM books ORDER BY author_lname;
+    -> ORDER BY sort the records in ascending order
+    -> DESC sort in decreasing order.
+    -> ASC for ascending order is the default order.
+    -> SELECT title, author_fname, author_lname FROM books ORDER BY 2;
+    -> Here 2 refers author_fname(remember index starts from 1)
+    -> SELECT author_fname, author_lname FROM books ORDER BY author_lname, author_fname;
+    -> here the list is first sorted by author_lname and then author_fname.
+
+36. SELECT title, released_year FROM books ORDER BY released_year LIMIT 3;
+    -> LIMIT selects the first 3 records from the list.
+    -> SELECT title, released_year FROM books ORDER BY released_year LIMIT 0, 5;
+    -> extract five records starting at index 0 row (yes here index starts from 0).
+    -> LIMIT 95, 353454354355345 will fetch all the records including after 95.
+
+37. SELECT title, author_fname FROM books WHERE author_fname LIKE '%da%';
+    -> LIKE will filter the records which have substing 'da'
+    -> substing is case insensitive
+    -> we can also find starts with 'da%'
+    -> also ends at '%da'.
+
+38. SELECT title, stock_quantity FROM books WHERE stock_quantity LIKE '____';
+    -> Wildcard characters to match any character.
+    -> here 4 underscores means find where length is 4 random characters.
+    -> To search % and _ characters use backslash(\% or \_).
+
+39. SELECT COUNT(author_fname) FROM books;
+    -> COUNT function counts the number of rows.
+    -> It also counts duplicate rows if we want distinct rows we can use COUNT(DISTINCT author_fname, author_lname).
+
+40. SELECT released_year, COUNT(*) FROM books GROUP BY released_year;
+    -> GROUP BY summarizes or aggregates identical data into single rows.
+    -> Must be used in conjunction with aggregate functions.
+
+41. SELECT MIN(released_year) FROM books;
+    -> fetch the min value in column.
+    -> MAX fetches the max value in column.
+
+42. SELECT author_fname,
+        author_lname,
+        Sum(pages)
+    FROM books
+    GROUP BY
+        author_lname,
+        author_fname;
+    -> SUM function addition all the values.
+
+43. SELECT author_fname, author_lname, AVG(pages) FROM books GROUP BY author_lname, author_fname;
+    -> AVG function calculates average of all the values.
+
+DATE TYPES -
+
+44. CHAR is fixed length and VARCHAR is variable length. 
+    CHAR always uses the same amount of storage space per entry, 
+    while VARCHAR only uses the amount necessary to store the actual text. 
+    CHAR is a fixed length string data type, 
+    so any remaining space in the field is padded with blanks. CHAR takes up 1 byte per character.
+    CHAR is faster for fixed length text.
+
