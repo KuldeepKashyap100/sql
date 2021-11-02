@@ -163,10 +163,191 @@
 
 DATE TYPES -
 
-44. CHAR is fixed length and VARCHAR is variable length. 
-    CHAR always uses the same amount of storage space per entry, 
-    while VARCHAR only uses the amount necessary to store the actual text. 
-    CHAR is a fixed length string data type, 
-    so any remaining space in the field is padded with blanks. CHAR takes up 1 byte per character.
-    CHAR is faster for fixed length text.
+44. CHAR vs VARCHAR
+    -> CHAR is fixed length and VARCHAR is variable length. 
+    -> CHAR always uses the same amount of storage space per entry, 
+    -> while VARCHAR only uses the amount necessary to store the actual text. 
+    -> CHAR is a fixed length string data type, 
+    -> so any remaining space in the field is padded with blanks. CHAR takes up 1 byte per character.
+    -> CHAR is faster for fixed length text.
 
+45. DECIMAL(total_num_of_digits, max_num_of_digits_after_decimal)
+    -> Decimal data type is a fixed point type and the calculations are exact. (DECIMAL(15, 2) 15 digits of precision)
+    -> total_num_of_digits -> range 1 - 65
+    -> max_num_of_digits_after_decimal -> range 0 - 30
+    -> ex DECIMAL(5, 2), If we try to insert 11543532 then the number that will get stored it 999.99 which is max limit.
+    -> insert 299.9999 value that gets stored is 299.00 due to rounding off.
+    -> Should use decimal is precision is important like bank balance
+
+46. FLOAT and DOUBLE
+    -> FLOAT and DOUBLE are floating point types and calculations are approximate.
+    -> FLOAT and DOUBLE store larger numbers using less space
+    -> But it comes at the cost of precision.
+    -> FLOAT takes 4 Bytes, Precision issues -> ~7 digits (will have precision issues after around 7 digits)
+    -> Double takes 8 Bytes, Precision issues -> ~15 digits (will have precision issues after around 15 digits)
+
+47. DATE
+    -> Value with a date but no time
+    -> format: 'YYYY-MM-DD'
+
+48. Time 
+    -> Store time but not date
+    -> format: 'HH:MM:SS'
+    
+49. DATETIME
+    -> store both date and time.
+    -> format: 'YYYY-MM-DD HH:MM:SS'
+
+50. CURDATE() CURTIME() NOW()
+    -> CURDATE() : gives current date
+    -> CURTIME() : gives current time
+    -> NOW() : gives current date and time
+
+51. DAY(date) -> will get the day. ex - 11
+    DAYNAME(date) -> will get dayname. ex -> monday
+    DAYOFWEEK(date) -> ex - friday is 6, saturday is 7.
+    DAYOFYEAR(date) -> will get day of year.
+
+52. MONTH(date) -> will get Month
+    MONTHNAME(date)
+
+53. HOUR(time) and MINUTE(time)
+
+54. SELECT name, DATE_FORMAT(birthdt, "%W %M %Y") FROM people;
+    -> DATE_FORMAT - format date using specifiers
+    -> find all Specifier here -> https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html#function_date-format
+    
+55. SELECT name, DATEDIFF(NOW(), birthdate) AS "Days Old" FROM people;
+    -> DATEDIFF to subtract dates.
+
+56. SELECT birthdt, DATE_ADD(birthdt, INTERVAL 1 MONTH) FROM people;
+    -> DATE_ADD to add dates or interval.
+    -> more straightforward way -> SELECT  birthdt, birthdt + INTERVAL 15 MONTH + INTERVAL 10 HOUR FROM people;
+
+57. DATETIME vs TIMESTAMP (both contains date and time)
+    -> DATETIME -> range '1000-01-01 00:00:01' to '9999-12-31 23:59:59'
+    -> TIMESTAMP -> range '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC
+    -> DATETIME takes 8bytes while TIMESTAMP takes 4bytes.
+
+58: CURRENT_TIMESTAMP vs NOW()
+    -> Both takes the current date and time.
+
+59. CREATE TABLE comments2 (
+        content VARCHAR(100),
+        changed_at TIMESTAMP DEFAULT NOW() ON UPDATE CURRENT_TIMESTAMP
+    );
+    -> ON UPDATE CURRENT_TIMESTAMP will change the date and time to current.
+
+60. SELECT DATE_FORMAT(NOW(), '%W - %w'), DAYOFWEEK(CURDATE());
+    -> In the first argument day of the week starts with 0.
+    -> In the second argument day of the week starts with 1.
+    
+LOGICAL OPERATORS - =, !=, NOT LIKE, >, >=, <, <=, AND, OR, 
+
+61. SELECT title FROM books WHERE title NOT LIKE 'w%';
+    -> NOT LIKE (titles which don't start with 'w')
+
+62. SELECT 99 > 1, 99 < 1;
+    -> 99 > 1 gives boolean value 1 (i.e true)
+    -> 99 < 1 gives boolean value 0 (i.e false)
+    -> SELECT 'A' > 'a' -> 0
+    -> SELECT 'A' = 'a' -> 1
+    -> because sql is case insensitive
+
+63. SELECT title, released_year FROM books WHERE released_year BETWEEN 2004 AND 2015;
+    -> BETWEEN can be used to find all the records between two values both inclusive.
+    -> BETWEEN paired with AND.
+
+64. SELECT title, released_year FROM books WHERE released_year NOT BETWEEN 2004 AND 2015;
+    -> NOT BETWEEN gives records outside the range.
+
+65. SELECT CAST('2015-05-07' AS DATETIME);
+    -> CAST function can be used for data type conversion.
+
+66. SELECT title, released_year FROM books WHERE released_year IN (2017, 1985);
+    -> IN and NOT IN function checks if the value exists in a list of values.
+
+67. SELECT title, stock_quantity,
+        CASE 
+            WHEN stock_quantity BETWEEN 0 AND 50 THEN '*'
+            WHEN stock_quantity BETWEEN 51 AND 100 THEN '**'
+            ELSE '***'
+        END AS 'STOCK'
+    FROM books;
+    -> CASE statement works like switch
+
+68. Relationships
+    -> One to One
+    -> One to Many
+    -> Many to Many
+
+69. CREATE TABLE orders (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        order_date DATE,
+        amount DECIMAL(8, 2),
+        customer_id INT,
+        FOREIGN KEY(customer_id) REFERENCES customers(id)
+    );
+    -> Foreign references the Primary key of another table.
+    -> Foreign key is a link between two tables.
+    -> There could be more than one column in Foreign key.
+    -> Primary key is a column or a group of columns that uniquely identifies rows.
+
+70. SELECT * FROM customers, orders;
+    -> cross join combines each row from the first table with each row from the second table.
+
+71. SELECT * FROM customers INNER JOIN orders ON customers.id = orders.customer_id;
+    -> INNER JOIN - combine records from two tables whenever there are matching values in a field common to both tables.
+    -> INNER is optional keyword if we don't mention it. it is implied.
+
+72. SELECT * FROM customers 
+        LEFT JOIN orders 
+            ON customers.id = orders.customer_id;
+    -> LEFT JOIN - We use a LEFT JOIN when we want every row from the first table, 
+    -> regardless of whether there is a matching row from the second table. 
+    -> This is similar to saying, “Return all the data from the first table no matter what.
+
+73. SELECT IFNULL(amount, 0) FROM ORDERS;
+    -> IFNULL function checks if the value is null if it is it replaces it with second argument.
+
+74. CREATE TABLE orders(
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        order_date DATE,
+        amount DECIMAL(8,2),
+        customer_id INT,
+        FOREIGN KEY(customer_id) 
+            REFERENCES customers(id)
+            ON DELETE CASCADE
+    );
+    -> ON DELETE CASCADE - specify whether you want rows deleted in a child table 
+    -> when corresponding rows are deleted in the parent table.
+
+75. LEFT JOIN becomes the RIGHT JOIN if we swap the tables in query.
+    -> some environments doesn't even support RIGHT JOIN.
+
+76. To compare null use 'IS NULL' instead of '= NULL'
+    -> It's important to note, that NULL doesn't equal NULL.
+    -> NULL is not a value, and therefore cannot be compared to another value.
+    -> where x is null checks whether x is a null value.
+    -> where x = null is checking whether x equals NULL, which will never be true
+    -> null is special value which does not equal anything, so you can't use equality comparison using = for it.
+
+77. ROUND(value, places)
+    -> round the floating value to places we specify.
+
+78.  IF(COUNT(rating) >= 1, 'ACTIVE', 'INACTIVE') AS STATUS
+    -> If we have only one condition we can use IF function instead of CASE.
+
+79. PRIMARY KEY(user_id, photo_id)
+    -> Multiple columns can be made primary key.
+
+80. SELECT users.username, count(photos.id) AS 'total_photos' 
+    FROM users
+    LEFT JOIN photos
+    ON users.id = photos.user_id
+    GROUP BY users.id
+    HAVING total_photos=0;
+    -> HAVING clause was added to SQL because the WHERE keyword cannot be used with aggregate functions.
+    -> It return rows where aggregate values meet the specified conditions.
+
+81. 
