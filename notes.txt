@@ -350,4 +350,35 @@ LOGICAL OPERATORS - =, !=, NOT LIKE, >, >=, <, <=, AND, OR,
     -> HAVING clause was added to SQL because the WHERE keyword cannot be used with aggregate functions.
     -> It return rows where aggregate values meet the specified conditions.
 
-81. 
+81. CREATE TRIGGER trigger_name 
+    trigger_time trigger_event ON table_name FOR EACH ROW
+    BEGIN
+    ...
+    END;
+
+    -> TRIGGER - SQL statements that are AUTOMATICALLY RUN when a specific table is changed
+    -> trigger_time - 'BEFORE' or 'AFTER'
+    -> trigger_event - 'INSERT' or 'UPDATE' or 'DELETE'
+    -> table_name - users, photos etc.
+    -> ex - DELIMITER $$
+                CREATE TRIGGER must_be_adult
+                    BEFORE INSERT ON users FOR EACH ROW
+                    BEGIN
+                        IF NEW.age < 18
+                        THEN
+                            SIGNAL SQLSTATE '45000'
+                                    SET MESSAGE_TEXT = 'Must be an adult!';
+                        END IF;
+                    END;
+            $$
+            DELIMITER ;
+
+    -> DELIMITER - describe the symbol which is considered as end of sql statement
+    -> Temporary we have changed it from ';' to '$$' because trigger has multiple ';'
+    -> and in the end we have reverted it back to ';'
+    -> NEW - Refers to data that is about to be inserted
+    -> 45000 sql state code is for user defined errors (A generic state representing "unhandled user-defined exception")
+
+
+82. SHOW TRIGGERS;
+    DROP TRIGGER trigger_name;
