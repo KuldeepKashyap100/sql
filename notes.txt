@@ -1,4 +1,4 @@
-1. mysql -u root -p 1232.  
+1. mysql -u root -p 123.  
     ->  start mysql command line. 
 
 2. ALTER USER ‘root’@‘localhost’  IDENTIFIED BY ’123’  
@@ -382,3 +382,9 @@ LOGICAL OPERATORS - =, !=, NOT LIKE, >, >=, <, <=, AND, OR,
 
 82. SHOW TRIGGERS;
     DROP TRIGGER trigger_name;
+
+83. BEGIN TRANSACTION;
+    UPDATE something;
+    UDATE somethingelse;
+    COMMIT;
+    -> either all transaction succeeded or all will fail.
