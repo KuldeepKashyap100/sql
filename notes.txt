@@ -401,7 +401,20 @@ LOGICAL OPERATORS - =, !=, NOT LIKE, >, >=, <, <=, AND, OR,
     -> final query executed on server -> `select * from users where username='kuldeep' -- and password=${password}`
     -> now -- is used for comment in sql and entire string after kuldeep is ommited and server will fetch the entire user kuldeep.
 
-86. another sqli example
+86. Another sqli example
     -> if username: `kuldeep' OR 1=1 --`
     -> this will fetch the entire user table
+
+87. TRUNCATE TABLE Categories;
+    -> The TRUNCATE TABLE command deletes the data inside a table, but not the table itself.
+    -> whereas drop will delete the entire table.
+
+88. SQL commands are mainly categorized into four categories as: 
+    -> DDL – Data Definition Language (CREATE, ALTER, DROP, TRUNCATE, RENAME)
+    -> DQl – Data Query Language (SELECT)
+    -> DML – Data Manipulation Language (INSERT, UPDATE, DELETE, CALL, EXPLAIN CALL, LOCK)
+    -> DCL – Data Control Language (GRANT, REVOKE)
+
+89. Though many resources claim there to be another category of SQL clauses TCL – Transaction Control Language.
+    -> TCL – Transaction Control Language (COMMIT, SAVEPOINT, ROLLBACK, SET TRANSACTION, SET CONSTRAINT)
 
