@@ -56,7 +56,6 @@
     );
     -> to specify default value use DEFAULT attribues of a column.
 
-
 21. CREATE TABLE unique_cats (
         cat_id INT NOT NULL AUTO_INCREMENT,
         name VARCHAR(100),
