@@ -66,6 +66,11 @@
     -> PRIMARY KEY to uniquely identify a row. 
     -> PRIMARY KEY can be added as column attribute or in the end as PRIMARY KEY(id).
 
+22. The ALTER TABLE statement is used to add, delete, or modify columns in an existing table.
+    -> ALTER TABLE table_name ADD column_name datatype;
+    -> ALTER TABLE table_name DROP COLUMN column_name;
+    -> ALTER TABLE table_name MODIFY COLUMN column_name datatype;
+
 22. SELECT * FROM cats WHERE name='egG';
     -> here name is case-insensitive.
 
@@ -74,6 +79,9 @@
 
 24. UPDATE table_name SET column_name = 'value' WHERE condition='some_condition';
     -> update single or mulitple rows based on some condition.
+    -> ex- UPDATE Customers
+    -> SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+    -> WHERE CustomerID = 1;
 
 25. DELETE FROM table_name WHERE condition='some';
     -> delete single or multiple rows based on some condition.
