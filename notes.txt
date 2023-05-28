@@ -38,8 +38,8 @@
 16. INSERT INTO table_name
         (column_name_1, column_name_2) 
     VALUES
-        (value_1, value_2), 
-        (value_3, value_4)
+        (value_1, value_2, 
+         value_3, value_4)
     -> to insert row into table.
 
 17. SHOW WARNINGS;
@@ -47,8 +47,8 @@
 
 18. if the value of the column is missing in insert statement then 'null'(not known) will be inserted for that column.
 
-19. CREATE TABLE table_name(column_name data_type NOT NULL, column_name data_type, NOT NULL) 
-    -> to not allow null values use NOT NULL attribues of a column
+19. CREATE TABLE table_name(column_name data_type NOT NULL, column_name data_type NOT NULL) 
+    -> to not allow null values use NOT NULL attribute of a column
 
 20. CREATE TABLE table_name (
         column_name data_type DEFAULT 'unamed', 
@@ -69,6 +69,7 @@
 22. The ALTER TABLE statement is used to add, delete, or modify columns in an existing table.
     -> ALTER TABLE table_name ADD column_name datatype;
     -> ALTER TABLE table_name DROP COLUMN column_name;
+    -> ALTER TABLE table_name RENAME COLUMN old_name to new_name;
     -> ALTER TABLE table_name MODIFY COLUMN column_name datatype;
 
 22. SELECT * FROM cats WHERE name='egG';
@@ -100,6 +101,7 @@
 29. SELECT SUBSTRING(title, 1, 7) as 'short title' FROM books;
     -> select substring from string
     -> index starts from 1 not 0
+    -> second argument is length
     -> index can use -ve values as well ( SUBSTRING("Hello", -2) -> "lo")
     -> We can also use SUBSTR, it works same as SUBSTRING
 
@@ -185,7 +187,7 @@ DATE TYPES -
     -> max_num_of_digits_after_decimal -> range 0 - 30
     -> ex DECIMAL(5, 2), If we try to insert 11543532 then the number that will get stored it 999.99 which is max limit.
     -> insert 299.9999 value that gets stored is 299.00 due to rounding off.
-    -> Should use decimal is precision is important like bank balance
+    -> Should use decimal if precision is important like bank balance
 
 46. FLOAT and DOUBLE
     -> FLOAT and DOUBLE are floating point types and calculations are approximate.
@@ -397,7 +399,7 @@ LOGICAL OPERATORS - =, !=, NOT LIKE, >, >=, <, <=, AND, OR,
     COMMIT;
     -> either all transaction succeeded or all will fail.
 
-84. CREATE INDEX large_table_index on large_table(random_int);
+84. CREATE INDEX index_name ON table_name(column1, column2);
     -> to create DB index on a column
     -> before index one query took 16sec for 50million records.
     -> after index it's almost instant
@@ -413,14 +415,14 @@ LOGICAL OPERATORS - =, !=, NOT LIKE, >, >=, <, <=, AND, OR,
     -> if username: `kuldeep' OR 1=1 --`
     -> this will fetch the entire user table
 
-87. TRUNCATE TABLE Categories;
+87. TRUNCATE TABLE table_name;
     -> The TRUNCATE TABLE command deletes the data inside a table, but not the table itself.
     -> whereas drop will delete the entire table.
 
 88. SQL commands are mainly categorized into four categories as: 
-    -> DDL – Data Definition Language (CREATE, ALTER, DROP, TRUNCATE, RENAME)
+    -> DDL – Data Definition Language (CREATE, ALTER, DROP, RENAME)
     -> DQl – Data Query Language (SELECT)
-    -> DML – Data Manipulation Language (INSERT, UPDATE, DELETE, CALL, EXPLAIN CALL, LOCK)
+    -> DML – Data Manipulation Language (INSERT, UPDATE, DELETE, TRUNCATE, CALL, EXPLAIN CALL, LOCK)
     -> DCL – Data Control Language (GRANT, REVOKE)
 
 89. Though many resources claim there to be another category of SQL clauses TCL – Transaction Control Language.
