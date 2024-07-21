@@ -428,3 +428,45 @@ LOGICAL OPERATORS - =, !=, NOT LIKE, >, >=, <, <=, AND, OR,
 89. Though many resources claim there to be another category of SQL clauses TCL – Transaction Control Language.
     -> TCL – Transaction Control Language (COMMIT, SAVEPOINT, ROLLBACK, SET TRANSACTION, SET CONSTRAINT)
 
+90. return JSON object from query(postgres):
+    ex - SELECT
+            u.id AS user_id,
+            u.name AS user_name,
+            jsonb_agg(
+                jsonb_build_object(
+                    'post_id', p.id,
+                    'post_title', p.title
+                )
+            ) AS posts
+        FROM
+            "user" u
+        LEFT JOIN
+            post p ON u.id = p.author_id
+        GROUP BY
+            u.id, u.name
+        ORDER BY
+            u.id;
+
+91. A LATERAL join is a powerful feature in SQL used to enable a subquery in the FROM clause of a query 
+    to reference columns from preceding tables in the same FROM clause. 
+    This feature is particularly useful when you need the subquery to compute derived tables 
+    that cannot be defined before the main query runs. 
+    Here's an in-depth explanation of how LATERAL joins work and why they are beneficial:
+    Basics of Lateral Joins
+    In traditional SQL joins, each table or derived table in the FROM clause is treated as completely independent of the others; 
+    they cannot refer to each other in their defining queries. However, with a LATERAL join, 
+    the subquery can reference columns from the earlier tables in the FROM list, 
+    essentially allowing the subquery to use data from each row of the preceding table(s) as input.
+    ex- SELECT e.employee_name, s.sale_amount
+        FROM employees e
+        LEFT JOIN LATERAL
+            (SELECT sale_amount
+            FROM sales
+            WHERE sales.employee_id = e.id
+            ORDER BY sale_amount DESC
+            LIMIT 3) s ON true;
+
+92. 
+
+
+
